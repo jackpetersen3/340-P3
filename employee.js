@@ -24,32 +24,31 @@ module.exports = function(){
         });
     }
 
-    function getPeoplebyHomeworld(req, res, mysql, context, complete){
-      var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.homeworld = ?";
+    function getEmployeeByProject(req, res, mysql, context, complete){
+      var query = "SELECT Fname, Lname, Salary, Dno FROM WORKS_ON, EMPLOYEE WHERE WORKS_ON.Essn = EMPLOYEE.Ssn and WORKS_ON.Pno = ?";
       console.log(req.params)
-      var inserts = [req.params.homeworld]
+      var inserts = [req.params.project]
       mysql.pool.query(query, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.people = results;
+            context.employee = results;
             complete();
         });
     }
 
     /* Find people whose fname starts with a given string in the req */
-    function getPeopleWithNameLike(req, res, mysql, context, complete) {
+    function getEmployeeWithNameLike(req, res, mysql, context, complete) {
       //sanitize the input as well as include the % character
-       var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.fname LIKE " + mysql.pool.escape(req.params.s + '%');
-      console.log(query)
+       var query = "SELECT Fname, Lname, Salary, Dno FROM EMPLOYEE WHERE Fname LIKE " + mysql.pool.escape(req.params.s + '%');
 
       mysql.pool.query(query, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.people = results;
+            context.employee = results;
             complete();
         });
     }
@@ -72,7 +71,7 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteperson.js","filterpeople.js","searchpeople.js"];
+        context.jsscripts = [,"filteremployee.js","searchemployee.js"];
         var mysql = req.app.get('mysql');
         getEmployees(res, mysql, context, complete);
         getProjects(res, mysql, context, complete);
@@ -89,10 +88,10 @@ module.exports = function(){
     router.get('/filter/:project', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["filterpeople.js","searchpeople.js"];
+        context.jsscripts = ["filteremployee.js","searchemployee.js"];
         var mysql = req.app.get('mysql');
-        getPeoplebyHomeworld(req,res, mysql, context, complete);
-        getPlanets(res, mysql, context, complete);
+        getEmployeeByProject(req,res, mysql, context, complete);
+        getProjects(res, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){
@@ -106,10 +105,10 @@ module.exports = function(){
     router.get('/search/:s', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteperson.js","filterpeople.js","searchpeople.js"];
+        context.jsscripts = ["filteremployee.js","searchemployee.js"];
         var mysql = req.app.get('mysql');
-        getPeopleWithNameLike(req, res, mysql, context, complete);
-        getPlanets(res, mysql, context, complete);
+        getEmployeeWithNameLike(req, res, mysql, context, complete);
+        getProjects(res, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){

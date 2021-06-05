@@ -30,12 +30,13 @@
     </select>
     <input type="button" value="Filter" onclick="filterEmployeesByProject()">
 </form>
+    <a href = "/employee" class = "green_button"> Clear Filters</a>
 <p>
-<form id='search_people' action='' method=''>
+<form id='search_employee' action='' method=''>
 <!--- this form does not submit directly, the button handles all the interaction with backend -->
-    <label> Search people for first name starting with:</label>
+    <label> Search Employees for first name starting with:</label>
     <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
-    <input type="button" value="Search" onclick="searchPeopleByFirstName()">
+    <input type="button" value="Search" onclick="searchEmployeesByFirstName()">
 </form>
  
 </html>
