@@ -34,7 +34,21 @@ module.exports = function(){
                 res.end();
             }
             context.employee = results;
+            context.PNO = req.params.project
             complete();
+        });
+
+        var sql2 = "SELECT Pname, Plocation FROM PROJECT WHERE Pnumber = ?";
+        console.log(req.params)
+        var insert2 = [req.params.project]
+        mysql.pool.query(sql2, insert2, function(error, results2, fields) {
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.Pname = results2[0].Pname;
+            context.Plocation = results2[0].Plocation;
+
         });
     }
 
