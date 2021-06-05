@@ -35,7 +35,6 @@ module.exports = function(){
             }
             context.employee = results;
             context.PNO = req.params.project
-            complete();
         });
 
         var sql2 = "SELECT Pname, Plocation FROM PROJECT WHERE Pnumber = ?";
@@ -48,7 +47,7 @@ module.exports = function(){
             }
             context.Pname = results2[0].Pname;
             context.Plocation = results2[0].Plocation;
-
+            complete();
         });
     }
 

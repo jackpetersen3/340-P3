@@ -1,0 +1,28 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 20%
+    
+}
+thead {
+    background-color: black;
+    color: white;
+}
+tr:nth-child(even) {background-color: #dfebe8;}
+
+.green_button {
+    background-color: #628078;
+    border: none;
+    text-align: center; 
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.button {
+    background-color: #628078;
+    color: white;
+    border-radius: 5px;
+}
